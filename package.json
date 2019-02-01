@@ -11,14 +11,11 @@
     "prepublish": "webpack"
   },
   "dependencies": {
-    "@hatiolab/things-scene": "^2.5.0-rc.16",
     "@material/mwc-button": "^0.3.5",
-    "@material/mwc-fab": "^0.3.5",
     "@material/mwc-icon": "^0.3.5",
     "@things-shell/client-utils": "^0.0.4",
     "lit-element": "^2.0.0-rc.5",
-    "pwa-helpers": "^0.9.0",
-    "web-animations-js": "^2.3.1"
+    "pwa-helpers": "^0.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
