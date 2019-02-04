@@ -89,7 +89,12 @@ export default {
 
         return
       } else {
-        dispatchEvent(new Event(this.authRequiredEvent, { bubbles: true, composed: true }))
+        let status = Number(response.status)
+        if (status >= 401 && status < 500) {
+          this.onAuthRequired(response.status)
+          return
+        }
+        throw new Error(response)
       }
     } catch (e) {
       this.onAuthError(e)
