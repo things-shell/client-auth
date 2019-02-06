@@ -90,7 +90,7 @@ export default {
         return
       } else {
         let status = Number(response.status)
-        if (status >= 401 && status < 500) {
+        if (status == 401) {
           this.onAuthRequired(response.status)
           return
         }
