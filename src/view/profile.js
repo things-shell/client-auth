@@ -3,7 +3,10 @@ import { auth } from '../client-auth'
 
 export class UserProfile extends LitElement {
   static get properties() {
-    return {}
+    return {
+      email: String,
+      accessToken: String
+    }
   }
 
   static get styles() {
@@ -31,17 +34,31 @@ export class UserProfile extends LitElement {
     ]
   }
 
+  firstUpdated() {
+    auth.on('signin', accessToken => {
+      this.email = ''
+      this.accessToken = accessToken
+    })
+    auth.on('signout', () => {
+      this.email = ''
+      this.accessToken = ''
+    })
+    auth.on('profile', credential => {
+      this.email = credential.email
+    })
+  }
+
   render() {
     return html`
       <div>
         <h3>User Profile</h3>
 
         <div>
-          <p>Email: <b>${auth.credential && auth.credential.email}</b></p>
+          <p>Email: <b>${this.email}</b></p>
         </div>
         <div>
           <p>Token:</p>
-          <div id="token">${auth.accessToken}</div>
+          <div id="token">${this.accessToken}</div>
         </div>
 
         <button @click="${() => auth.signout()}">Sign Out</button>
