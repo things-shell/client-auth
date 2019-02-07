@@ -3,7 +3,7 @@ import { PageView } from './pageview'
 
 import { auth } from '../client-auth'
 
-export class UserProfile extends PageView {
+export class AuthProfile extends PageView {
   static get properties() {
     return {
       email: String,
@@ -69,4 +69,4 @@ export class UserProfile extends PageView {
   }
 }
 
-customElements.define('user-profile', UserProfile)
+customElements.define('auth-profile', AuthProfile)
