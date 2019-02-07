@@ -17,10 +17,6 @@ export class ClientAuth {
     return ClientAuth._auth
   }
 
-  static _auth
-
-  credential
-
   constructor({
     provider = ShellAuthProvider,
     defaultRoutePath = DEFAULT_ROUTE_PATH,
@@ -31,6 +27,13 @@ export class ClientAuth {
     signoutPath,
     profilePath = 'authcheck'
   }) {
+    this._event_listeners = {
+      signin: [],
+      signout: [],
+      profile: [],
+      error: []
+    }
+
     this.authProvider = provider
     this.defaultRoutePath = defaultRoutePath
     this.contextPath = contextPath
@@ -42,13 +45,6 @@ export class ClientAuth {
     this.signoutPath = signoutPath
 
     this.authRequiredEvent = authRequiredEvent
-  }
-
-  _event_listeners = {
-    signin: [],
-    signout: [],
-    profile: [],
-    error: []
   }
 
   on(event, handler) {
@@ -74,9 +70,6 @@ export class ClientAuth {
     this.authRequiredEvent = null
     delete this._event_listeners
   }
-
-  defaultRoutePath
-  contextPath = ''
 
   fullpath(relativePath) {
     return (
