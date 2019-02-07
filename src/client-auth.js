@@ -25,7 +25,8 @@ export class ClientAuth {
     signupPath = 'signup',
     signinPath = 'signin',
     signoutPath,
-    profilePath = 'authcheck'
+    profilePath = 'authcheck',
+    endpoint = ''
   }) {
     this._event_listeners = {
       signin: [],
@@ -33,6 +34,8 @@ export class ClientAuth {
       profile: [],
       error: []
     }
+
+    this.endpoint = endpoint
 
     this.authProvider = provider
     this.defaultRoutePath = defaultRoutePath
@@ -72,6 +75,10 @@ export class ClientAuth {
   }
 
   fullpath(relativePath) {
+    return this.endpoint ? this.endpoint + this.fullpage(relativePath) : this.fullpage(relativePath)
+  }
+
+  fullpage(relativePath) {
     return (
       '/' +
       [this.contextPath, relativePath]
@@ -112,7 +119,7 @@ export class ClientAuth {
 
     if (!state || !('redirected' in state)) {
       /* signin/signup page에 직접(주소창 입력, 링크) 들어온 경우 */
-      this.route(this.fullpath(this.defaultRoutePath), false)
+      this.route(this.fullpage(this.defaultRoutePath), false)
     } else {
       /* 인증 프로세스를 통해서 들어온 경우 */
       if (state.redirected) {
@@ -120,7 +127,7 @@ export class ClientAuth {
         window.history.back()
       } else {
         /* signout을 통해서 들어온 경우 */
-        this.route(this.fullpath(this.defaultRoutePath), false)
+        this.route(this.fullpage(this.defaultRoutePath), false)
       }
     }
   }
@@ -143,7 +150,7 @@ export class ClientAuth {
     this.credential = null
     this._event_listeners.signout.forEach(handler => handler())
 
-    this.route(this.fullpath(this.signoutPath ? this.signoutPath : this.signinPath), false)
+    this.route(this.fullpage(this.signoutPath ? this.signoutPath : this.signinPath), false)
   }
 
   onAuthError(error) {
@@ -153,7 +160,7 @@ export class ClientAuth {
 
   onAuthRequired(e) {
     console.warn('authentication required')
-    this.route(this.fullpath(this.signinPath), true)
+    this.route(this.fullpage(this.signinPath), true)
   }
 
   route(path, redirected) {

@@ -19,16 +19,12 @@ export default class AuthRouter extends LitElement {
       contextPath: String,
       defaultRoutePath: String,
 
-      authRequiredEvent: String
+      authRequiredEvent: String,
+      endpoint: String
     }
   }
 
   async firstUpdated() {
-    /*
-      profile을 요청하면서, 인증 여부를 판단하고, 사용자 정보를 획득한다.
-    */
-    auth.profile()
-
     auth.on('signin', accessToken => {
       this.accessToken = accessToken
       this.dispatchEvent(
@@ -59,6 +55,7 @@ export default class AuthRouter extends LitElement {
   }
 
   updated(change) {
+    change.has('endpoint') && (auth.endpoint = this.endpoint)
     change.has('authProvider') && (auth.authProvider = this.authProvider)
 
     change.has('signinPath') && (auth.signinPath = this.signinPath)
@@ -70,6 +67,11 @@ export default class AuthRouter extends LitElement {
     change.has('defaultRoutePath') && (auth.defaultRoutePath = this.defaultRoutePath)
 
     change.has('authRequiredEvent') && (auth.authRequiredEvent = this.authRequiredEvent)
+
+    /*
+      profile을 요청하면서, 인증 여부를 판단하고, 사용자 정보를 획득한다.
+    */
+    auth.profile()
   }
 
   isSignedIn() {

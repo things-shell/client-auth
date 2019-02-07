@@ -10,6 +10,7 @@ export default {
     try {
       const response = await fetch(this.fullpath(this.signupPath), {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -46,6 +47,7 @@ export default {
     try {
       const response = await fetch(this.fullpath(this.signinPath), {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -74,6 +76,7 @@ export default {
     try {
       const response = await fetch(this.fullpath(this.profilePath), {
         method: 'GET',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         }

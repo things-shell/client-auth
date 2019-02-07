@@ -1,8 +1,9 @@
-import { LitElement, html, css } from 'lit-element/'
+import { html, css } from 'lit-element'
+import { PageView } from './pageview'
 
 import { auth } from '../client-auth'
 
-export class AuthSignup extends LitElement {
+export class AuthSignup extends PageView {
   static get styles() {
     return [
       css`
