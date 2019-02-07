@@ -26,7 +26,7 @@ export class AuthSignup extends PageView {
         <button class="ui button" type="submit">Sign Up</button>
       </form>
 
-      <a href=${auth.fullpath(auth.signinPath)}>Sign In</a>
+      <a href=${auth.fullpage(auth.signinPath)}>Sign In</a>
     `
   }
 

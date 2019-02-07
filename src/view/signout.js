@@ -19,7 +19,7 @@ export class AuthSignOut extends PageView {
   render() {
     return html`
       <h3>Sign Out</h3>
-      <a href=${auth.fullpath(auth.signinPath)}>Sign In</a>
+      <a href=${auth.fullpage(auth.signinPath)}>Sign In</a>
     `
   }
 }
