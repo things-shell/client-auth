@@ -1,7 +1,7 @@
 import { html, css } from 'lit-element'
 import { PageView } from './pageview'
 
-import { auth } from '../client-auth'
+import { auth } from '@things-shell/client-auth'
 
 export class AuthSignOut extends PageView {
   static get styles() {
