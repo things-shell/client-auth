@@ -7,7 +7,7 @@ let pkg = require('./package.json')
 let external = Object.keys(pkg.dependencies)
 let plugins = [
   resolve(),
-  babel({ exclude: 'node_modules/**', runtimeHelpers: true }),
+  babel({ exclude: 'node_modules/**' }),
   commonjs(),
   terser({
     sourcemap: true
