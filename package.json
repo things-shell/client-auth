@@ -1,14 +1,16 @@
 {
   "name": "@things-shell/client-auth",
-  "version": "0.1.5",
-  "main": "src/index.js",
+  "version": "0.1.6",
+  "main": "dist/client-auth.js",
+  "module": "dist/client-auth.mjs",
+  "esnext:main": "dist/client-auth.mjs",
   "repository": "https://github.com/things-shell/client-auth.git",
   "author": "Hearty Oh <heartyoh@hatiolab.com>",
   "license": "MIT",
   "scripts": {
     "serve": "webpack-dev-server --hot",
-    "build": "webpack",
-    "prepublish": "webpack"
+    "build": "rollup -c --environment BUILD:production",
+    "prepublish": "rollup -c --environment BUILD:production"
   },
   "dependencies": {
     "@material/mwc-button": "^0.3.6",
@@ -22,6 +24,11 @@
     "@babel/preset-env": "^7.3.1",
     "babel-loader": "^8.0.5",
     "html-webpack-plugin": "^3.2.0",
+    "rollup": "^1.1.2",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-terser": "^4.0.4",
     "script-ext-html-webpack-plugin": "^2.1.3",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
