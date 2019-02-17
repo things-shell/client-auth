@@ -1,6 +1,6 @@
 {
   "name": "@things-shell/client-auth",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "main": "dist/client-auth.js",
   "module": "dist/client-auth.mjs",
   "esnext:main": "dist/client-auth.mjs",
