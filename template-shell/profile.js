@@ -56,7 +56,11 @@ export class AuthProfile extends PageView {
 
   updated(change) {
     if (change.has('credential')) {
-      this.email = this.credential.email
+      if (this.credential) {
+        this.email = this.credential.email
+      } else {
+        this.email = ''
+      }
     }
   }
 
