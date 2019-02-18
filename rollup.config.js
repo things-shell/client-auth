@@ -5,14 +5,7 @@ import { terser } from 'rollup-plugin-terser'
 
 let pkg = require('./package.json')
 let external = Object.keys(pkg.dependencies)
-let plugins = [
-  resolve(),
-  babel({ exclude: 'node_modules/**' }),
-  commonjs(),
-  terser({
-    sourcemap: true
-  })
-]
+let plugins = [resolve(), babel({ exclude: 'node_modules/**' }), commonjs(), terser()]
 
 export default [
   {
@@ -21,7 +14,7 @@ export default [
     plugins,
     output: [
       {
-        file: pkg.main,
+        file: 'dist/client-auth.js',
         name: 'auth',
         format: 'umd',
         sourcemap: true

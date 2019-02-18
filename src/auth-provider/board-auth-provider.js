@@ -1,4 +1,4 @@
-import { sleep, delete_cookie } from '@things-shell/client-utils'
+import { encodeFormParams } from '@things-shell/client-utils'
 
 function hexString(buffer) {
   const byteArray = new Uint8Array(buffer)
@@ -18,12 +18,6 @@ async function encodeSha256(password) {
 
   const buffer = await crypto.subtle.digest('SHA-256', encoded)
   return hexString(buffer)
-}
-
-function encodeFormParams(obj) {
-  return Object.keys(obj)
-    .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(obj[k])}`)
-    .join('&')
 }
 
 export default {

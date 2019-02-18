@@ -1,4 +1,4 @@
-import { sleep, delete_cookie } from '@things-shell/client-utils'
+import { sleep, deleteCookie } from '@things-shell/client-utils'
 
 export default {
   signinPath: 'signin',
@@ -112,7 +112,7 @@ export default {
     // localStorage.removeItem('access_token')
     // localStorage.removeItem('user')
 
-    delete_cookie('access_token')
+    deleteCookie('access_token')
     await sleep(1000)
     this.onSignedOut('signed out')
   }
