@@ -19,13 +19,15 @@ export class ClientAuth {
 
   constructor({
     provider = ShellAuthProvider,
-    defaultRoutePath = DEFAULT_ROUTE_PATH,
+    defaultRoutePage = DEFAULT_ROUTE_PATH,
     contextPath = DEFAULT_CONTEXT_PATH,
     authRequiredEvent = DEFAULT_AUTH_REQUIRED_EVENT,
     signupPath = 'signup',
     signinPath = 'signin',
-    signoutPath,
     profilePath = 'authcheck',
+    signinPage = 'signin',
+    signupPage = 'signup',
+    signoutPage,
     endpoint = ''
   }) {
     this._event_listeners = {
@@ -38,14 +40,17 @@ export class ClientAuth {
     this.endpoint = endpoint
 
     this.authProvider = provider
-    this.defaultRoutePath = defaultRoutePath
+    this.defaultRoutePage = defaultRoutePage
     this.contextPath = contextPath
     this.authRequiredEvent = authRequiredEvent
 
     this.signupPath = signupPath
     this.signinPath = signinPath
     this.profilePath = profilePath
-    this.signoutPath = signoutPath
+
+    this.signinPage = signinPage
+    this.signupPage = signupPage
+    this.signoutPage = signoutPage
 
     this.authRequiredEvent = authRequiredEvent
   }
@@ -74,10 +79,22 @@ export class ClientAuth {
     delete this._event_listeners
   }
 
+  /*
+    fullpath는 리모트 서버로의 path를 찾는 메쏘드이다.
+    endpoint의 영향을 받는다.
+  */
   fullpath(relativePath) {
-    return this.endpoint ? this.endpoint + this.fullpage(relativePath) : this.fullpage(relativePath)
+    return [this.endpoint ? this.endpoint : '/', relativePath]
+      .filter(path => path && path !== '/')
+      .map(path => (path.startsWith('/') ? path.substr(1) : path))
+      .map(path => (path.endsWith('/') ? path.substr(0, path.length - 1) : path))
+      .join('/')
   }
 
+  /*
+    fullpage는 싱글페이지 어플리케이션의 page를 찾는 메쏘드이다.
+    contextPath의 영향을 받는다.
+  */
   fullpage(relativePath) {
     return (
       '/' +
@@ -119,7 +136,7 @@ export class ClientAuth {
 
     if (!state || !('redirected' in state)) {
       /* signin/signup page에 직접(주소창 입력, 링크) 들어온 경우 */
-      this.route(this.fullpage(this.defaultRoutePath), false)
+      this.route(this.fullpage(this.defaultRoutePage), false)
     } else {
       /* 인증 프로세스를 통해서 들어온 경우 */
       if (state.redirected) {
@@ -127,7 +144,7 @@ export class ClientAuth {
         window.history.back()
       } else {
         /* signout을 통해서 들어온 경우 */
-        this.route(this.fullpage(this.defaultRoutePath), false)
+        this.route(this.fullpage(this.defaultRoutePage), false)
       }
     }
   }
@@ -150,7 +167,7 @@ export class ClientAuth {
     this.credential = null
     this._event_listeners.signout.forEach(handler => handler())
 
-    this.route(this.fullpage(this.signoutPath ? this.signoutPath : this.signinPath), false)
+    this.route(this.fullpage(this.signoutPage ? this.signoutPage : this.signinPage), false)
   }
 
   onAuthError(error) {
@@ -160,7 +177,7 @@ export class ClientAuth {
 
   onAuthRequired(e) {
     console.warn('authentication required')
-    this.route(this.fullpage(this.signinPath), true)
+    this.route(this.fullpage(this.signinPage), true)
   }
 
   route(path, redirected) {
@@ -175,7 +192,7 @@ export class ClientAuth {
     // 히스토리에 두번을 넣고 back()을 호출하는 편법을 사용함.
     // forward history가 한번 남는 문제가 있으나 signin 프로세스 중에만 발생하므로 큰 문제는 아님.
     // 이 로직은 login process가 어플리케이션 구조에 종속되는 것을 최소화하기 위함임.
-    // 예를 들면, redux 구조에 들어가지 안아도 로그인 프로세스가 동작하도록 한 것임.
+    // 예를 들면, redux 구조에 들어가지 않아도 로그인 프로세스가 동작하도록 한 것임.
     window.history.pushState({ redirected }, '', href)
     window.history.pushState({}, '', href)
 

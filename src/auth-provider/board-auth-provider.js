@@ -1,26 +1,52 @@
 import { sleep, delete_cookie } from '@things-shell/client-utils'
 
+function hexString(buffer) {
+  const byteArray = new Uint8Array(buffer)
+
+  const hexCodes = [...byteArray].map(value => {
+    const hexCode = value.toString(16)
+    const paddedHexCode = hexCode.padStart(2, '0')
+    return paddedHexCode
+  })
+
+  return hexCodes.join('')
+}
+
+async function encodeSha256(password) {
+  const encoder = new TextEncoder()
+  const encoded = encoder.encode(password)
+
+  const buffer = await crypto.subtle.digest('SHA-256', encoded)
+  return hexString(buffer)
+}
+
+function encodeFormParams(obj) {
+  return Object.keys(obj)
+    .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(obj[k])}`)
+    .join('&')
+}
+
 export default {
-  signinPath: 'signin',
+  signinPath: 'login',
   signupPath: 'signup',
-  profilePath: 'authcheck',
-  signoutPath: '',
+  profilePath: 'session_info',
+  signoutPath: 'logout',
+  signinPage: 'signin',
+  signupPage: 'signup',
 
   async signup(formProps) {
-    var { email, password } = formProps
-
-    let body = new FormData()
-    body.append('email', email)
-    body.append('password', crypto.subtle.digest('SHA-256', password))
+    var { password } = formProps
+    formProps.password = await encodeSha256(password)
 
     try {
       const response = await fetch(this.fullpath(this.signupPath), {
         method: 'POST',
         credentials: 'include',
         headers: {
-          // 'Content-Type': 'application/json'
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Accept: 'application/json'
         },
-        body
+        body: encodeFormParams(formProps)
       })
 
       if (response.ok) {
@@ -30,17 +56,8 @@ export default {
           this.onAuthError(data.error)
           return
         }
-        if (data && data.token) {
-          /*
-           data.token 이 전달되면, 서버는 특별한 확인과정없이 사용자 승인한 것으로 이해하고, 바로 자동 로그인 절차에 들어간다.
-           즉, 사용자 auth dispatch 후에 바로 사용자 정보를 서버에 요청한다.
-          */
-          this.onSignedIn(data.token)
-          this.profile()
-          return
-        } else {
-          throw new Error(response.status)
-        }
+      } else {
+        throw new Error(response.status)
       }
     } catch (e) {
       this.onAuthError(e)
@@ -48,30 +65,25 @@ export default {
   },
 
   async signin(formProps) {
-    var { email, password } = formProps
-
-    let body = new FormData()
-    body.append('email', email)
-    body.append('password', crypto.subtle.digest('SHA-256', password))
+    var { password } = formProps
+    formProps.password = await encodeSha256(password)
 
     try {
       const response = await fetch(this.fullpath(this.signinPath), {
         method: 'POST',
         credentials: 'include',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Accept: 'application/json'
         },
-        body
+        body: encodeFormParams(formProps)
       })
 
       if (response.ok) {
         const data = await response.json()
 
-        // localStorage.setItem('access_token', data.token)
-
-        /* 사용자 auth dispatch 후에 바로 사용자 정보를 서버에 요청함. */
-        this.onSignedIn(data.token)
-        this.profile()
+        this.onSignedIn('SESSION Cookie for server')
+        this.onProfileFetched(data, 'SESSION Cookie for server')
 
         return
       } else {
@@ -87,15 +99,13 @@ export default {
       const response = await fetch(this.fullpath(this.profilePath), {
         method: 'GET',
         credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        headers: {}
       })
 
       if (response.ok) {
         const data = await response.json()
 
-        this.onProfileFetched(data.user, data.token)
+        this.onProfileFetched(data, 'SESSION Cookie for server')
 
         return
       } else {
@@ -112,8 +122,19 @@ export default {
   },
 
   async signout() {
-    delete_cookie('access_token')
-    await sleep(1000)
-    this.onSignedOut('signed out')
+    const response = await fetch(this.fullpath(this.signoutPath), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      credentials: 'include',
+      mode: 'cors'
+    })
+
+    if (response.ok) {
+      this.onSignedOut('signed out')
+    } else {
+    }
   }
 }

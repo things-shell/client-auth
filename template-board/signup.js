@@ -21,12 +21,14 @@ export class AuthSignup extends PageView {
       <h3>Sign Up</h3>
 
       <form id="signin" @submit="${e => this.handleSubmit(e)}">
+        <div class="field"><input type="text" name="login" placeholder="Login" /></div>
+        <div class="field"><input type="text" name="name" placeholder="Name" /></div>
         <div class="field"><input type="email" name="email" placeholder="Email" /></div>
         <div class="field"><input type="password" name="password" placeholder="Password" /></div>
         <button class="ui button" type="submit">Sign Up</button>
       </form>
 
-      <a href=${auth.fullpage(auth.signinPath)}>Sign In</a>
+      <a href=${auth.fullpage(auth.signinPage)}>Sign In</a>
     `
   }
 

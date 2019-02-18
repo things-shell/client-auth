@@ -11,16 +11,20 @@ export default class AuthRouter extends LitElement {
 
       authProvider: Object,
 
-      signinPath: String,
-      signupPath: String,
-      signoutPath: String,
-      profilePath: String,
+      signinPath: { attribute: 'signin-path' },
+      signupPath: { attribute: 'signup-path' },
+      signoutPath: { attribute: 'signout-path' },
+      profilePath: { attribute: 'profile-path' },
 
-      contextPath: String,
-      defaultRoutePath: String,
+      signinPage: { attribute: 'signin-page' },
+      signupPage: { attribute: 'signup-page' },
+      signoutPage: { attribute: 'signout-page' },
 
-      authRequiredEvent: String,
-      endpoint: String
+      contextPath: { attribute: 'context-path' },
+      defaultRoutePage: { attribute: 'default-route-page' },
+
+      authRequiredEvent: { attribute: 'auth-required-event' },
+      endpoint: { attribute: 'endpoint' }
     }
   }
 
@@ -63,8 +67,12 @@ export default class AuthRouter extends LitElement {
     change.has('signoutPath') && (auth.signoutPath = this.signoutPath)
     change.has('profilePath') && (auth.profilePath = this.profilePath)
 
+    change.has('signinPage') && (auth.signinPage = this.signinPage)
+    change.has('signupPage') && (auth.signupPage = this.signupPage)
+    change.has('signoutPage') && (auth.signoutPage = this.signoutPage)
+
     change.has('contextPath') && (auth.contextPath = this.contextPath)
-    change.has('defaultRoutePath') && (auth.defaultRoutePath = this.defaultRoutePath)
+    change.has('defaultRoutePage') && (auth.defaultRoutePage = this.defaultRoutePage)
 
     change.has('authRequiredEvent') && (auth.authRequiredEvent = this.authRequiredEvent)
 

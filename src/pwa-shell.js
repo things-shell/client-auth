@@ -42,7 +42,7 @@ export default class PWAShell extends LitElement {
         .signoutPath="singout"
         .profilePath="profile"
         .contextPath=""
-        .defaultRoutePath="/"
+        .defaultRoutePage="/"
         .authRequiredEvent="auth-required"
       ></auth-router>
 

@@ -3,7 +3,7 @@ import { PageView } from './pageview'
 
 import { auth } from '@things-shell/client-auth'
 
-export class AuthSignin extends PageView {
+export class AuthSignup extends PageView {
   static get styles() {
     return [
       css`
@@ -18,15 +18,15 @@ export class AuthSignin extends PageView {
 
   render() {
     return html`
-      <h3>Sign In</h3>
+      <h3>Sign Up</h3>
 
       <form id="signin" @submit="${e => this.handleSubmit(e)}">
         <div class="field"><input type="email" name="email" placeholder="Email" /></div>
         <div class="field"><input type="password" name="password" placeholder="Password" /></div>
-        <button class="ui button" type="submit">Sign In</button>
+        <button class="ui button" type="submit">Sign Up</button>
       </form>
 
-      <a href=${auth.fullpage(auth.signupPath)}>Sign Up</a>
+      <a href=${auth.fullpage(auth.signinPage)}>Sign In</a>
     `
   }
 
@@ -41,10 +41,10 @@ export class AuthSignin extends PageView {
       json[key] = value
     }
 
-    await auth.signin(json)
+    await auth.signup(json)
 
     form.reset()
   }
 }
 
-customElements.define('auth-signin', AuthSignin)
+customElements.define('auth-signup', AuthSignup)

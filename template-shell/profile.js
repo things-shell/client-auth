@@ -6,6 +6,7 @@ import { auth } from '@things-shell/client-auth'
 export class AuthProfile extends PageView {
   static get properties() {
     return {
+      credential: Object,
       email: String,
       accessToken: String
     }
@@ -38,16 +39,25 @@ export class AuthProfile extends PageView {
 
   firstUpdated() {
     auth.on('signin', accessToken => {
-      this.email = ''
+      this.credential = null
       this.accessToken = accessToken
     })
     auth.on('signout', () => {
-      this.email = ''
+      this.credential = null
       this.accessToken = ''
     })
     auth.on('profile', credential => {
-      this.email = credential.email
+      this.credential = credential
     })
+
+    this.credential = auth.credential
+    this.accessToken = auth.accessToken
+  }
+
+  updated(change) {
+    if (change.has('credential')) {
+      this.email = this.credential.email
+    }
   }
 
   render() {

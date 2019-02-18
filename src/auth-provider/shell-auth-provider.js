@@ -5,6 +5,8 @@ export default {
   signupPath: 'signup',
   profilePath: 'authcheck',
   signoutPath: '',
+  signinPage: 'signin',
+  signupPage: 'signup',
 
   async signup(formProps) {
     try {
@@ -37,6 +39,8 @@ export default {
         } else {
           throw new Error(response.status)
         }
+      } else {
+        throw new Error(response.status)
       }
     } catch (e) {
       this.onAuthError(e)
