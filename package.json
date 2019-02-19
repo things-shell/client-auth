@@ -1,6 +1,6 @@
 {
   "name": "@things-shell/client-auth",
-  "version": "0.1.24",
+  "version": "0.2.0",
   "main": "src/index.js",
   "module": "dist/client-auth.mjs",
   "esnext:main": "dist/client-auth.mjs",
@@ -13,7 +13,7 @@
     "prepublish": "rollup -c --environment BUILD:production"
   },
   "dependencies": {
-    "@things-shell/client-utils": "^0.0.11",
+    "@things-shell/client-utils": "^0.1.0",
     "lit-element": "^2.0.1",
     "pwa-helpers": "^0.9.0"
   },
@@ -24,7 +24,7 @@
     "@babel/runtime": "^7.3.1",
     "babel-loader": "^8.0.5",
     "html-webpack-plugin": "^3.2.0",
-    "rollup": "^1.1.2",
+    "rollup": "^1.2.2",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0",
