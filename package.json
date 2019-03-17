@@ -1,6 +1,6 @@
 {
   "name": "@things-shell/client-auth",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "src/index.js",
   "module": "dist/client-auth.mjs",
   "esnext:main": "dist/client-auth.mjs",
@@ -13,26 +13,26 @@
     "prepublish": "rollup -c --environment BUILD:production"
   },
   "dependencies": {
-    "@things-shell/client-utils": "^0.1.0",
+    "@things-shell/client-utils": "^0.1.2",
     "lit-element": "^2.0.1",
     "pwa-helpers": "^0.9.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-transform-runtime": "^7.2.0",
-    "@babel/preset-env": "^7.3.1",
-    "@babel/runtime": "^7.3.1",
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-transform-runtime": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/runtime": "^7.3.4",
     "babel-loader": "^8.0.5",
     "html-webpack-plugin": "^3.2.0",
-    "rollup": "^1.2.2",
+    "rollup": "^1.6.0",
     "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-commonjs": "^9.2.1",
+    "rollup-plugin-node-resolve": "^4.0.1",
     "rollup-plugin-terser": "^4.0.4",
     "script-ext-html-webpack-plugin": "^2.1.3",
-    "webpack": "^4.29.3",
-    "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.1.14",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1",
     "webpack-node-externals": "^1.7.2"
   }
 }
