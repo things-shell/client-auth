@@ -27,7 +27,7 @@ export default [
     plugins,
     output: [
       {
-        file: pkg.module,
+        file: 'dist/client-auth.mjs',
         format: 'esm',
         sourcemap: true
       }
