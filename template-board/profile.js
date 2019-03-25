@@ -6,7 +6,6 @@ import { auth } from '@things-shell/client-auth'
 export class AuthProfile extends PageView {
   static get properties() {
     return {
-      credential: Object,
       email: String,
       login: String,
       name: String,
@@ -45,39 +44,37 @@ export class AuthProfile extends PageView {
 
   firstUpdated() {
     auth.on('signin', accessToken => {
-      this.credential = null
+      this.setCredential()
     })
     auth.on('signout', () => {
-      this.credential = null
+      this.setCredential()
     })
     auth.on('profile', credential => {
-      this.credential = credential
+      this.setCredential(credential)
     })
 
-    this.credential = auth.credential
+    this.setCredential(auth.credential)
   }
 
-  updated(change) {
-    if (change.has('credential')) {
-      if (this.credential) {
-        this.email = this.credential.email
-        this.login = this.credential.login
-        this.name = this.credential.name
-        this.locale = this.credential.locale
-        this.stomp_url = this.credential.stomp_url
-        this.exclusive_role = this.credential.exclusive_role
-        this.super_user = this.credential.super_user
-        this.admin_flag = this.credential.admin_flag
-      } else {
-        this.email = ''
-        this.login = ''
-        this.name = ''
-        this.locale = ''
-        this.stomp_url = ''
-        this.exclusive_role = ''
-        this.super_user = false
-        this.admin_flag = false
-      }
+  setCredential(credential) {
+    if (credential) {
+      this.email = credential.email
+      this.login = credential.login
+      this.name = credential.name
+      this.locale = credential.locale
+      this.stomp_url = credential.stomp_url
+      this.exclusive_role = credential.exclusive_role
+      this.super_user = credential.super_user
+      this.admin_flag = credential.admin_flag
+    } else {
+      this.email = ''
+      this.login = ''
+      this.name = ''
+      this.locale = ''
+      this.stomp_url = ''
+      this.exclusive_role = ''
+      this.super_user = false
+      this.admin_flag = false
     }
   }
 
