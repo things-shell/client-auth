@@ -79,7 +79,7 @@ export default class AuthRouter extends LitElement {
     /*
       profile을 요청하면서, 인증 여부를 판단하고, 사용자 정보를 획득한다.
     */
-    // auth.profile()
+    auth.profile()
   }
 
   isSignedIn() {
